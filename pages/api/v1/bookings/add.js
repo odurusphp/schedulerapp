@@ -17,11 +17,12 @@ export default async function handler(req, res) {
     }
 
     const schema = Joi.object({
-        from_date: Joi.date().format("YYYY-MM-DD").required(),
-        to_date: Joi.date().format("YYYY-MM-DD HH:MM:SS").required(),
+        from_date: Joi.string().required(),
+        to_date: Joi.string().required(),
         roomid: Joi.number().required(),
         userid: Joi.number().optional(),
     });
+
 
     const payload = await jwtMiddleware(req, res);
     //check if payload contains businessid
@@ -29,6 +30,13 @@ export default async function handler(req, res) {
     // Checking data validation
     const { error } = schema.validate(req.body, { abortEarly: true });
     if (error) return errorResponse(res, error.details[0].message);
+
+    //make sure from_date is in format YYYY-MM-DD HH:MM:SS and to_date is in format YYYY-MM-DD HH:MM:SS
+    const from_date = new Date(req.body.from_date);
+    const to_date = new Date(req.body.to_date);
+    if (from_date.toString() === "Invalid Date" || to_date.toString() === "Invalid Date") {
+        return errorResponse(res, "Invalid date format", 400);
+    }
     //make sure room exists
     const room = await generaldb.singlerecord("rooms", "id", req.body.roomid);
     if (!room) return errorResponse(res, "Room does not exist", 409);
@@ -37,7 +45,7 @@ export default async function handler(req, res) {
     //from_date must be before to_date
     if (req.body.from_date > req.body.to_date) return errorResponse(res, "From date must be before to_date", 409);
     //check if room is available by checking if there is a booking for the room in the time period from_date to_date using roomid custom query and booking is not cancelled
-    const booking = await generaldb.query("SELECT * FROM bookings WHERE roomid = $1 AND (from_date BETWEEN $2 AND $3 OR to_date BETWEEN $2 AND $3) AND status != $4", [req.body.roomid, req.body.from_date, req.body.to_date, "cancelled"]);
+    const booking = await generaldb.query("SELECT * FROM bookings WHERE room_id = ? AND (from_date BETWEEN ? AND ? OR to_date BETWEEN ? AND ?) AND status != ?", [req.body.roomid, req.body.from_date, req.body.to_date,req.body.from_date, req.body.to_date, "cancelled"]);
     if (booking.length > 0) return errorResponse(res, "Room is not available", 409);
     let uid = payload.uid;
     if (req.body.userid && payload.role !== "admin") return errorResponse(res, "You need to be an admin to access this route", 401);
@@ -46,16 +54,18 @@ export default async function handler(req, res) {
     const bookingdetails = {
         from_date: req.body.from_date,
         to_date: req.body.to_date,
-        roomid: req.body.roomid,
-        userid:req.body.userid,
+        room_id: req.body.roomid,
+        user_id:req.body.userid,
         status: "pending",
     };
     generaldb.add("bookings", bookingdetails);
+    //get latest booking id
+    const latestbooking = await generaldb.lastinsertrecord("id", "bookings");
     //get record of booking just added
-    const newbooking = await generaldb.singlerecord("bookings", "id", bookingdetails.id);
+    const newbooking = await generaldb.singlerecord("bookings", "id", latestbooking);
+    console.log(newbooking);
     //format date
     newbooking.created_at = formatdate(newbooking.created_at);
-    newbooking.updated_at = formatdate(newbooking.updated_at);
     newbooking.from_date = formatdate(newbooking.from_date);
     newbooking.to_date = formatdate(newbooking.to_date);
     //send email to user
@@ -63,7 +73,7 @@ export default async function handler(req, res) {
     const email = user.email;
     const subject = "Booking Confirmation";
     const message = `<p>Hi ${user.firstname},</p>
-    <p>You have successfully booked a room from ${newbooking.from_date} to ${newbooking.to_date}</p>
+    <p>You have successfully booked <strong> ${room.name} </strong> from <strong>${newbooking.from_date}</strong> to <strong> ${newbooking.to_date}</strong> </p>
     <p>Thank you for using our service</p>
     <p>Regards,</p>
     <p>The Booking System</p>`;

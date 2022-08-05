@@ -1,9 +1,13 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-
-async function send(email = "odurusphp@gmail.com", subject = "Test", msg,skip=true) {
-  let url=  process.env.URL+"login";
+async function send(
+  email = "odurusphp@gmail.com",
+  subject = "Test",
+  msg,
+  skip = true
+) {
+  let url = process.env.URL + "login";
   let transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
@@ -11,13 +15,8 @@ async function send(email = "odurusphp@gmail.com", subject = "Test", msg,skip=tr
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
     },
-    secure: false,
-    // tls: {rejectUnauthorized: false}
-    tls: {
-      ciphers: "SSLv3",
-      rejectUnauthorized: false,
-    },
   });
+
   const html = `
   <!doctype html>
   <html>

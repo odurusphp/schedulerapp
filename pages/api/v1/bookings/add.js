@@ -50,6 +50,9 @@ export default async function handler(req, res) {
     let uid = payload.uid;
     if (req.body.userid && payload.role !== "admin") return errorResponse(res, "You need to be an admin to access this route", 401);
     if (!req.body.userid) req.body.userid = uid;
+    // 
+    const user = await generaldb.singlerecord("users", "id",req.body.userid);
+
     //book room
     const bookingdetails = {
         from_date: req.body.from_date,
@@ -57,19 +60,20 @@ export default async function handler(req, res) {
         room_id: req.body.roomid,
         user_id:req.body.userid,
         status: "pending",
+        room: room.name,
+        user:(user.title + " " + user.firstname + " " + user.lastname).trim(),
     };
     generaldb.add("bookings", bookingdetails);
     //get latest booking id
     const latestbooking = await generaldb.lastinsertrecord("id", "bookings");
     //get record of booking just added
     const newbooking = await generaldb.singlerecord("bookings", "id", latestbooking);
-    console.log(newbooking);
     //format date
     newbooking.created_at = formatdate(newbooking.created_at);
+    // newbooking.uodated_at = formatdate(newbooking.updated_at);
     newbooking.from_date = formatdate(newbooking.from_date);
     newbooking.to_date = formatdate(newbooking.to_date);
     //send email to user
-    const user = await generaldb.singlerecord("users", "id",req.body.userid);
     const email = user.email;
     const subject = "Booking Confirmation";
     const message = `<p>Hi ${user.firstname},</p>

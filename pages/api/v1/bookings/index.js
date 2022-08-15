@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   //check if payload contains uid
   if (!payload.uid) return errorResponse(res, "You need to be logged in to access this route", 401);
   const rooms = await generaldb.query(
-    `SELECT *  from bookings WHERE user_id = ?`, [payload.uid]
+    `SELECT *  from bookings WHERE user_id = ? order by id desc`, [payload.uid]
     );
     //remove password from response
     rooms.forEach(room => {

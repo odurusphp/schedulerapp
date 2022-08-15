@@ -1,5 +1,5 @@
 //get all users
-import { errorResponse, successResponse, formatdate,getDuration } from "../../../../../utils/helpers/general";
+import { errorResponse, successResponse, formatdate,getDuration } from "../../../../utils/helpers/general";
 const generaldb = require("../../../../../database/db");
 import { jwtMiddleware } from "../../../../../utils/helpers/jwtMiddleware";
 
@@ -24,6 +24,11 @@ export default async function handler(req, res) {
     const duration = getDuration(booking.from_date, booking.to_date);
     //add duration to booking
     booking.duration = duration;
+    //check if booking is happening now and get the time left for the booking to end
+    if (booking.from_date <= date && booking.to_date >= date) {
+      booking.timeleft = getDuration(date, booking.to_date);
+    }
+   
   });
   return successResponse(res, "Stats retrieved successfully", bookings);
 }

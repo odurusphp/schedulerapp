@@ -85,8 +85,3 @@ export default async function handler(req, res) {
     //return success response
     return successResponse(res, "Booking made successfully", newbooking);
 }
-
-function createWebToken(user) {
-    const token = jwt.sign(user, process.env.JWT_SECRET);
-    return token;
-}

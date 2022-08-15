@@ -70,39 +70,27 @@ export default function rooms() {
           <thead>
             <tr className="border border-gray-300 border-2 font-bold bg-cip-green text-white">
               <td className="text-start p-2">#</td>
-              <td className="text-start p-2">Name</td>
-              <td className="text-start p-2">Desciption</td>
+              <td className="text-start p-2">Room</td>
+              <td className="text-start p-2">Booked By</td>
+              <td className="text-start p-2">From</td>
+              <td className="text-start p-2">To</td>
               <td className="text-start p-2">Status</td>
-              <td></td>
+              <td className="text-start p-2"> Created at </td>
             </tr>
           </thead>
           <tbody>
-            {bookingdata.map((contract, index) => (
+            {bookings.map((item, index) => (
               <tr
-                key={contract.id}
+                key={item.id}
                 className="border border-gray-300 border-2  even:bg-cip-light-green  odd:bg-white"
               >
                 <td className={"text-start p-2 text-sm"}>{index + 1}</td>
-                <td className="text-start p-2 text-sm">{contract.name}</td>
-                <td className="text-start p-2 text-sm">
-                  {contract.description}
-                </td>
-                <td className="text-start p-2 text-sm">{contract.status}</td>
-
-                <td className="text-start p-2  text-xs">
-                  <Link href={"/dashboard/contracts/" + contract.id}>
-                    <span className="p-1.5 rounded-full  bg-cip-blue px-4 cursor-pointer">
-                      <FontAwesomeIcon icon={faEdit} color={"#fff"} />
-                    </span>
-                  </Link>
-
-                  <span
-                    className="p-1.5 rounded-full   bg-red-500 px-4 cursor-pointer"
-                    onClick={() => deleteContract(contract.id)}
-                  >
-                    <FontAwesomeIcon icon={faTrashCan} color={"#fff"} />
-                  </span>
-                </td>
+                <td className="text-start p-2 text-sm">{item.room}</td>
+                <td className="text-start p-2 text-sm">{item.user}</td>
+                <td className="text-start p-2 text-sm">{item.from_date}</td>
+                <td className="text-start p-2 text-sm">{item.to_date}</td>
+                <td className="text-start p-2 text-sm">{item.status}</td>
+                <td className="text-start p-2 text-sm">{item.created_at}</td>
               </tr>
             ))}
           </tbody>

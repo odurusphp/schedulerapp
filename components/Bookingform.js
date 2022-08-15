@@ -9,13 +9,11 @@ export default function Roomform() {
   const router = useRouter();
   const [error, setError] = useState({});
   const [roomdata, setRoomdata] = useState([]);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
 
   const [formdata, setFormData] = useState({
     from_date: "",
     to_date: "",
-    room_id: "",
+    roomid: "",
   });
 
   const handleChange = (e) => {
@@ -24,9 +22,9 @@ export default function Roomform() {
 
   //Form schema
   const schema = {
-    from_date: Joi.string().required(),
-    to_date: Joi.string().required(),
-    room_id: Joi.string().required(),
+    from_date: Joi.date().required(),
+    to_date: Joi.date().min(Joi.ref("from_date")).required(),
+    roomid: Joi.string().required(),
   };
 
   //Validate form function
@@ -40,15 +38,22 @@ export default function Roomform() {
   };
 
   const submitFormdata = async (e) => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      headers: {
+        x_auth_token: token,
+      },
+    };
     try {
       const result = await axios.post(
-        process.env.API_URL + "/users/add",
-        formdata
+        process.env.API_URL + "/bookings/add",
+        formdata,
+        headers
       );
       console.log(result);
-      if (result.status === 200) {
-        router.push("/dashboard/accounts");
-      }
+      // if (result.status === 200) {
+      //   router.push("/dashboard/accounts");
+      // }
     } catch (err) {
       console.log(err);
     }
@@ -88,7 +93,7 @@ export default function Roomform() {
         <form onSubmit={handleSubmit}>
           <div className="grid grid-rows-1 mt-4">
             <select
-              name="room_id"
+              name="roomid"
               onChange={handleChange}
               className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
             >
@@ -101,7 +106,7 @@ export default function Roomform() {
             </select>
 
             <label className="text-red-500 text-sm">
-              {error.room_id && "Room required"}{" "}
+              {error.roomid && "Room required"}{" "}
             </label>
           </div>
 
@@ -109,13 +114,13 @@ export default function Roomform() {
             <DatePicker
               placeholderText="From"
               className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              selected={formdata.from_date}
+              onChange={(date) => setFormData({ ...formdata, from_date: date })}
               showTimeSelect
-              dateFormat="yyyy-MM-dd h:mm aa"
+              dateFormat="yyyy-MM-dd H:mm"
             />
             <label className="text-red-500 text-sm">
-              {error.startDate && "Start date required"}{" "}
+              {error.from_date && "Start date required"}{" "}
             </label>
           </div>
 
@@ -123,13 +128,14 @@ export default function Roomform() {
             <DatePicker
               placeholderText="To"
               className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
+              selected={formdata.to_date}
+              onChange={(date) => setFormData({ ...formdata, to_date: date })}
               showTimeSelect
-              dateFormat="yyyy-MM-dd h:mm aa"
+              dateFormat="yyyy-MM-dd H:mm"
+              name="to_date"
             />
             <label className="text-red-500 text-sm">
-              {error.endDate && "End date required"}{" "}
+              {error.to_date && "End date required"}{" "}
             </label>
           </div>
 

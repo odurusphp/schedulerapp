@@ -8,11 +8,14 @@ export default async function handler(req, res) {
   const payload = await jwtMiddleware(req, res);
   //check if payload contains uid
   if (!payload.uid) return errorResponse(res, "You need to be logged in to access this route", 401);
-  //check if user is admin
+    //check if user is admin
     if (payload.role !== "admin") return errorResponse(res, "You need to be an admin to access this route", 401);
-  const bookings = await generaldb.query(
-    `SELECT *  from bookings order by id desc`, []
+    //get stats of all bookings fir the day cancalled and confirmed
+    const stats = await generaldb.query(
+        `SELECT
+        (SELECT COUNT(*) FROM bookings WHERE status = 'confirmed') AS confirmed,
+        (SELECT COUNT(*) FROM bookings WHERE status = 'cancelled') AS cancelled
+        `, []
     );
-    //remove password from response
-   successResponse(res, "Rooms retrieved successfully", bookings);
+    successResponse(res, "Stats retrieved successfully", stats);
 }

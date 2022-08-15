@@ -45,11 +45,21 @@ const errorResponse = (res, error, code = 422) => {
       console.log('dumpError :: argument is not an object');
     }
   }
+      //get duration in hours and minutes for booking
+  function getDuration(start, end) {
+    var startDate = new Date(start);
+    var endDate = new Date(end);
+    var diff = endDate.getTime() - startDate.getTime();
+    var hours = Math.floor(diff / (1000 * 60 * 60));
+    var minutes = Math.floor(diff / (1000 * 60));
+    return hours + ":" + minutes ;
+    }
 
 //export module
 module.exports = {
     successResponse,
     errorResponse,
     formatdate,
-    dumpError
+    dumpError,
+    getDuration
 }

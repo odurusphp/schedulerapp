@@ -5,11 +5,11 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
-export default function Contracts() {
-  const [userdata, setUserdata] = useState([]);
+export default function rooms() {
+  const [bookings, setBookingdata] = useState([]);
 
-  const getusers = async () => {
-    const url = process.env.API_URL + "/users";
+  const getBookings = async () => {
+    const url = process.env.API_URL + "/bookings/all";
     const header = {
       headers: {
         x_auth_token: localStorage.getItem("token"),
@@ -17,8 +17,8 @@ export default function Contracts() {
     };
     try {
       const result = await axios.get(url, header);
-      console.log("user result", result.data);
-      setUserdata(result.data.data);
+      console.log("book result", result.data);
+      setBookingdata(result.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +26,7 @@ export default function Contracts() {
 
   useEffect(() => {
     console.log("token", localStorage.getItem("token"));
-    getusers();
+    getBookings();
   }, []);
 
   return (
@@ -38,7 +38,7 @@ export default function Contracts() {
         <div className="flex flex-row">
           <div className="basis-4/6 mt-2">
             <h1 className="text-2xl font-normal underline underline-offset-8   decoration-cip-orange text-start">
-              List of Accounts
+              List of Bookings
             </h1>
           </div>
 
@@ -54,10 +54,10 @@ export default function Contracts() {
             </div>
 
             <div className="mt-4">
-              <Link href={"/admin/accounts/add"}>
+              <Link href={"/admin/rooms/add"}>
                 <a className="bg-cip-deep-green p-2.5 text-white  rounded-md w-full text-sm">
                   {" "}
-                  Add New Account{" "}
+                  Book a room{" "}
                 </a>
               </Link>
             </div>
@@ -71,27 +71,24 @@ export default function Contracts() {
             <tr className="border border-gray-300 border-2 font-bold bg-cip-green text-white">
               <td className="text-start p-2">#</td>
               <td className="text-start p-2">Name</td>
-              <td className="text-start p-2">Email</td>
-              <td className="text-start p-2">Role</td>
-              <td className="text-start p-2">Date Created</td>
+              <td className="text-start p-2">Desciption</td>
+              <td className="text-start p-2">Status</td>
               <td></td>
             </tr>
           </thead>
           <tbody>
-            {userdata.map((contract, index) => (
+            {bookingdata.map((contract, index) => (
               <tr
                 key={contract.id}
                 className="border border-gray-300 border-2  even:bg-cip-light-green  odd:bg-white"
               >
                 <td className={"text-start p-2 text-sm"}>{index + 1}</td>
+                <td className="text-start p-2 text-sm">{contract.name}</td>
                 <td className="text-start p-2 text-sm">
-                  {contract.firstname + " " + contract.lastname}
+                  {contract.description}
                 </td>
-                <td className="text-start p-2 text-sm">{contract.email}</td>
-                <td className="text-start p-2 text-sm">{contract.role}</td>
-                <td className="text-start p-2 text-sm">
-                  {contract.created_on}
-                </td>
+                <td className="text-start p-2 text-sm">{contract.status}</td>
+
                 <td className="text-start p-2  text-xs">
                   <Link href={"/dashboard/contracts/" + contract.id}>
                     <span className="p-1.5 rounded-full  bg-cip-blue px-4 cursor-pointer">

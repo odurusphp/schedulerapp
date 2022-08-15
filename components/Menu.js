@@ -25,7 +25,7 @@ export default function Menu() {
 
           <p className="">
             {" "}
-            <Link href={"/dashboard/contracts"}>
+            <Link href={"/booking/"}>
               <a
                 href="#"
                 className=" pl-10 cursor-pointer hover:text-cip-orange hover:underline hover:underline-offset-8 
@@ -37,24 +37,27 @@ export default function Menu() {
           </p>
 
           <p>
-            {" "}
-            <a
-              href="#"
-              className=" pl-10 cursor-pointer hover:text-cip-orange hover:underline hover:underline-offset-8"
-            >
-              Users
-            </a>
+            <Link href={"/admin/accounts"}>
+              <a
+                href="#"
+                className=" pl-10 cursor-pointer hover:text-cip-orange hover:underline hover:underline-offset-8"
+              >
+                Users
+              </a>
+            </Link>
           </p>
 
           <p>
             {" "}
-            <a
-              href="#"
-              className=" pl-10 cursor-pointer hover:text-cip-orange hover:underline hover:underline-offset-8 
+            <Link href={"/admin/rooms"}>
+              <a
+                href="#"
+                className=" pl-10 cursor-pointer hover:text-cip-orange hover:underline hover:underline-offset-8 
                "
-            >
-              Rooms
-            </a>
+              >
+                Rooms
+              </a>
+            </Link>
           </p>
 
           <p>

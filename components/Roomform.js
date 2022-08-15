@@ -2,20 +2,16 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Joi from "joi-browser";
 import { useRouter } from "next/router";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Link from "next/link";
 
 export default function Roomform() {
   const router = useRouter();
   const [error, setError] = useState({});
-  const [roomdata, setRoomdata] = useState([]);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
 
   const [formdata, setFormData] = useState({
-    from_date: "",
-    to_date: "",
-    room_id: "",
+    name: "",
+    description: "",
   });
 
   const handleChange = (e) => {
@@ -24,9 +20,8 @@ export default function Roomform() {
 
   //Form schema
   const schema = {
-    from_date: Joi.string().required(),
-    to_date: Joi.string().required(),
-    room_id: Joi.string().required(),
+    name: Joi.string().required(),
+    description: Joi.string().required(),
   };
 
   //Validate form function
@@ -40,33 +35,23 @@ export default function Roomform() {
   };
 
   const submitFormdata = async (e) => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      x_auth_token: token,
+    };
+
+    console.log(headers);
+
+    const url = process.env.API_URL + "/rooms/add";
     try {
-      const result = await axios.post(
-        process.env.API_URL + "/users/add",
-        formdata
-      );
+      const result = await axios.post(url, formdata, { headers });
       console.log(result);
       if (result.status === 200) {
-        router.push("/dashboard/accounts");
+        router.push("/admin/rooms");
       }
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const getrooms = async () => {
-    const url = process.env.API_URL + "/rooms";
-    const header = {
-      headers: {
-        x_auth_token: localStorage.getItem("token"),
-      },
-    };
-    try {
-      const result = await axios.get(url, header);
-      console.log("room result", result.data);
-      setRoomdata(result.data.data);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -78,69 +63,50 @@ export default function Roomform() {
     submitFormdata();
   };
 
-  useEffect(() => {
-    getrooms();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
       <div className="grid grid-rows-1 p-10 bg-white shadow-md">
         <form onSubmit={handleSubmit}>
           <div className="grid grid-rows-1 mt-4">
-            <select
-              name="room_id"
+            <input
+              type="text"
+              name="name"
+              placeholder="Room Name"
               onChange={handleChange}
               className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
-            >
-              <option value="">Select Room</option>
-              {roomdata.map((room) => (
-                <option key={room.id} value={room.id}>
-                  {room.name}
-                </option>
-              ))}
-            </select>
+            />
 
             <label className="text-red-500 text-sm">
-              {error.room_id && "Room required"}{" "}
+              {error.name && "Room required"}{" "}
             </label>
           </div>
 
           <div className="grid grid-rows-1 mt-4">
-            <DatePicker
-              placeholderText="From"
+            <input
+              type="text"
+              name="description"
+              placeholder="Description"
+              onChange={handleChange}
               className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              showTimeSelect
-              dateFormat="yyyy-MM-dd h:mm aa"
             />
-            <label className="text-red-500 text-sm">
-              {error.startDate && "Start date required"}{" "}
-            </label>
-          </div>
 
-          <div className="grid grid-rows-1 mt-4">
-            <DatePicker
-              placeholderText="To"
-              className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-              showTimeSelect
-              dateFormat="yyyy-MM-dd h:mm aa"
-            />
             <label className="text-red-500 text-sm">
-              {error.endDate && "End date required"}{" "}
+              {error.description && "Room required"}{" "}
             </label>
           </div>
 
           <div className="grid grid-rows-1 mt-4">
             <div className="flex">
-              <button
-                type="button"
-                className="bg-cip-grey w-1/2 rounded text-sm text-cip-blue  p-2"
-              >
-                Cancel
-              </button>
+              <Link href={"/admin/rooms"}>
+                <button
+                  type="button"
+                  className="bg-cip-grey w-1/2 rounded text-sm text-cip-blue  p-2"
+                >
+                  Cancel
+                </button>
+              </Link>
 
               <button
                 type="submit"

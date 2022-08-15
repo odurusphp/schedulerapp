@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import Bookingform from "../../components/Roomform.js";
+import Bookingform from "../../components/Bookingform.js";
 import Menu from "../../components/Menu.js";
 
 export default function Add() {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import Accountform from "../../../components/Accountform.js";
+import Roomform from "../../../components/Roomform.js";
 import Menu from "../../../components/Menu.js";
 
 export default function Add() {
@@ -13,7 +13,7 @@ export default function Add() {
         <div className="grid grid-cols-1 flow-col  w-2/4 mx-auto my-4">
           <div className="flex flex-row mt-10">
             <div className="mt-2 flex">
-              <Link href={"/admin/accounts"}>
+              <Link href={"/admin/rooms"}>
                 <p className="text-base font-normal text-start -ml-10 mx-10 cursor-pointer">
                   <span>
                     <FontAwesomeIcon icon={faChevronLeft} />
@@ -22,14 +22,14 @@ export default function Add() {
                 </p>
               </Link>
               <p className="text-base font-normal underline underline-offset-8   decoration-cip-orange text-start">
-                Add An Account
+                Add A Room
               </p>
             </div>
           </div>
         </div>
 
         <div className="grid grid-rows-1 flow-col w-2/4 mt-4 mx-auto">
-          <Accountform />
+          <Roomform />
         </div>
       </div>
     </div>

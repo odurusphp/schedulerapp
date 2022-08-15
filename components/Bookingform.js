@@ -2,17 +2,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Joi from "joi-browser";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-export default function Accountform() {
+export default function Roomform() {
   const router = useRouter();
   const [error, setError] = useState({});
+  const [roomdata, setRoomdata] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const [formdata, setFormData] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    role: "",
+    from_date: "",
+    to_date: "",
+    room_id: "",
   });
 
   const handleChange = (e) => {
@@ -21,10 +24,9 @@ export default function Accountform() {
 
   //Form schema
   const schema = {
-    firstname: Joi.string().required(),
-    lastname: Joi.string().required(),
-    email: Joi.string().email().required(),
-    role: Joi.string().required(),
+    from_date: Joi.string().required(),
+    to_date: Joi.string().required(),
+    room_id: Joi.string().required(),
   };
 
   //Validate form function
@@ -52,6 +54,22 @@ export default function Accountform() {
     }
   };
 
+  const getrooms = async () => {
+    const url = process.env.API_URL + "/rooms";
+    const header = {
+      headers: {
+        x_auth_token: localStorage.getItem("token"),
+      },
+    };
+    try {
+      const result = await axios.get(url, header);
+      console.log("room result", result.data);
+      setRoomdata(result.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const errors = validate();
@@ -60,76 +78,69 @@ export default function Accountform() {
     submitFormdata();
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getrooms();
+  }, []);
 
   return (
     <>
       <div className="grid grid-rows-1 p-10 bg-white shadow-md">
         <form onSubmit={handleSubmit}>
           <div className="grid grid-rows-1 mt-4">
-            <input
-              type="text"
-              name="firstname"
-              placeholder="First name"
-              onChange={handleChange}
-              className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
-            />
-            <label className="text-red-500 text-sm">
-              {error.firstname && "Name of account required"}{" "}
-            </label>
-          </div>
-
-          <div className="grid grid-rows-1 mt-4">
-            <input
-              type="text"
-              name="lastname"
-              placeholder="Last name"
-              onChange={handleChange}
-              className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
-            />
-            <label className="text-red-500 text-sm">
-              {error.lastname && "Name of account required"}{" "}
-            </label>
-          </div>
-
-          <div className="grid grid-rows-1 mt-4">
-            <input
-              type="text"
-              name="email"
-              placeholder="Email"
-              onChange={handleChange}
-              className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
-            />
-            <label className="text-red-500 text-sm">
-              {error.email && "Email required"}{" "}
-            </label>
-          </div>
-
-          <div className="grid grid-rows-1 mt-4">
             <select
-              name="role"
+              name="room_id"
               onChange={handleChange}
               className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
             >
-              <option value="">Select Role</option>
-              <option value="admin">Admin</option>
-              <option value="user">User</option>
+              <option value="">Select Room</option>
+              {roomdata.map((room) => (
+                <option key={room.id} value={room.id}>
+                  {room.name}
+                </option>
+              ))}
             </select>
+
             <label className="text-red-500 text-sm">
-              {error.role && "Role required"}{" "}
+              {error.room_id && "Room required"}{" "}
+            </label>
+          </div>
+
+          <div className="grid grid-rows-1 mt-4">
+            <DatePicker
+              placeholderText="From"
+              className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              showTimeSelect
+              dateFormat="yyyy-MM-dd h:mm aa"
+            />
+            <label className="text-red-500 text-sm">
+              {error.startDate && "Start date required"}{" "}
+            </label>
+          </div>
+
+          <div className="grid grid-rows-1 mt-4">
+            <DatePicker
+              placeholderText="To"
+              className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+              showTimeSelect
+              dateFormat="yyyy-MM-dd h:mm aa"
+            />
+            <label className="text-red-500 text-sm">
+              {error.endDate && "End date required"}{" "}
             </label>
           </div>
 
           <div className="grid grid-rows-1 mt-4">
             <div className="flex">
-              <Link href="/admin/accounts">
-                <button
-                  type="button"
-                  className="bg-cip-grey w-1/2 rounded text-sm text-cip-blue  p-2"
-                >
-                  Cancel
-                </button>
-              </Link>
+              <button
+                type="button"
+                className="bg-cip-grey w-1/2 rounded text-sm text-cip-blue  p-2"
+              >
+                Cancel
+              </button>
 
               <button
                 type="submit"

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Menu from "../../components/Menu.js";
+import Menu from "../../../components/Menu.js";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
@@ -54,7 +54,7 @@ export default function rooms() {
             </div>
 
             <div className="mt-4">
-              <Link href={"/dashboard/accounts/add"}>
+              <Link href={"/admin/rooms/add"}>
                 <a className="bg-cip-deep-green p-2.5 text-white  rounded-md w-full text-sm">
                   {" "}
                   Add New Room{" "}

@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         userid: Joi.number().optional(),
     });
 
-
+try {
     const payload = await jwtMiddleware(req, res);
     //check if payload contains businessid
     if (!payload.uid) return errorResponse(res, "You need to be logged in to access this route", 401);
@@ -81,7 +81,14 @@ export default async function handler(req, res) {
     <p>Thank you for using our service</p>
     <p>Regards,</p>
     <p>The Booking System</p>`;
-    send(email, subject, message);
-    //return success response
+    send(email, subject, message); 
     return successResponse(res, "Booking made successfully", newbooking);
+
+} catch (error) {
+    console.log(error);
+    return errorResponse(res, "Internal Server Error", 500);
+    
+}
+   
+    //return success response
 }

@@ -2,10 +2,9 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 async function send(
-  email = "odurusphp@gmail.com",
-  subject = "Test",
+  email = "",
+  subject = "",
   msg,
-  skip = true
 ) {
   let url = process.env.URL + "login";
   let transporter = nodemailer.createTransport({
@@ -16,6 +15,7 @@ async function send(
       pass: process.env.EMAIL_PASSWORD,
     },
   });
+  // console.log(process.env.SMTP_HOST,process.env.SMTP_PORT ,  process.env.EMAIL_USERNAME, process.env.EMAIL_PASSWORD);
 
   const html = `
   <!doctype html>
@@ -150,7 +150,7 @@ async function send(
                               </tr>
                             </tbody>
                           </table>
-                          <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">Good luck! Hope it works.</p>
+                          <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">Good luck! </p>
                         </td>
                       </tr>
                     </table>
@@ -195,10 +195,11 @@ async function send(
     html,
   };
   try {
+    // console.log(transporter);
     const emailResponse = await transporter.sendMail(message);
     // console.log(emailResponse);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 }
 

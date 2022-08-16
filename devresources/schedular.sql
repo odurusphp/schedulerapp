@@ -1,116 +1,78 @@
--- MySQL dump 10.13  Distrib 8.0.27, for Win64 (x86_64)
---
--- Host: localhost    Database: schedular
--- ------------------------------------------------------
--- Server version	8.0.27
+/*
+SQLyog Ultimate v11.33 (64 bit)
+MySQL - 5.7.26-log : Database - scheduler
+*********************************************************************
+*/
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`scheduler` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
---
--- Table structure for table `bookings`
---
+USE `scheduler`;
+
+/*Table structure for table `bookings` */
 
 DROP TABLE IF EXISTS `bookings`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `bookings` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `from_date` datetime NOT NULL,
-  `to_date` datetime NOT NULL,
-  `room_id` int NOT NULL,
-  `status` varchar(220) NOT NULL DEFAULT 'pending',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `from_date` datetime DEFAULT NULL,
+  `to_date` datetime DEFAULT NULL,
+  `room_id` int(11) DEFAULT NULL,
+  `status` varchar(220) DEFAULT 'pending',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user` varchar(90) DEFAULT NULL,
+  `room` varchar(90) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `bookings`
---
+/*Data for the table `bookings` */
 
-LOCK TABLES `bookings` WRITE;
-/*!40000 ALTER TABLE `bookings` DISABLE KEYS */;
-INSERT INTO `bookings` VALUES (1,1,'2022-08-04 10:00:00','2022-08-04 11:00:00',2,'pending','2022-08-04 09:53:43'),(3,1,'2022-08-04 10:00:00','2022-08-04 11:00:00',2,'pending','2022-08-04 09:53:43'),(4,1,'2022-08-04 10:00:00','2022-08-04 11:00:00',2,'pending','2022-08-04 09:53:43'),(5,1,'2022-08-04 10:00:00','2022-08-04 11:00:00',2,'pending','2022-08-04 09:53:43'),(6,1,'2022-08-04 10:00:00','2022-08-04 11:00:00',2,'pending','2022-08-04 09:53:43'),(7,1,'2022-08-04 10:00:00','2022-08-04 11:30:00',2,'pending','2022-08-04 09:53:43'),(8,1,'2022-08-04 10:00:00','2022-08-04 11:30:00',2,'pending','2022-08-04 09:53:43'),(9,1,'2022-08-04 10:00:00','2022-08-04 11:30:00',2,'pending','2022-08-04 09:53:43'),(10,1,'2022-08-04 10:00:00','2022-08-04 11:30:00',2,'pending','2022-08-04 09:53:52'),(11,1,'2022-08-04 10:00:00','2022-08-04 11:30:00',2,'pending','2022-08-04 09:53:56'),(12,1,'2022-08-04 09:00:00','2022-08-04 11:30:00',2,'pending','2022-08-04 09:54:37'),(13,1,'2022-08-04 09:00:00','2022-08-04 11:30:00',2,'pending','2022-08-04 09:54:42'),(14,1,'2022-08-04 12:00:00','2022-08-04 13:30:00',2,'pending','2022-08-04 09:55:44'),(15,1,'2022-08-04 14:00:00','2022-08-04 15:30:00',2,'pending','2022-08-04 09:56:14');
-/*!40000 ALTER TABLE `bookings` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `rooms`
---
+/*Table structure for table `rooms` */
 
 DROP TABLE IF EXISTS `rooms`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `rooms` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'active',
+  `status` varchar(255) NOT NULL DEFAULT 'active',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `rooms`
---
+/*Data for the table `rooms` */
 
-LOCK TABLES `rooms` WRITE;
-/*!40000 ALTER TABLE `rooms` DISABLE KEYS */;
-INSERT INTO `rooms` VALUES (2,'Room 2','An executive suite with Air conditioning','active','2022-08-04 07:42:14','2022-08-04 07:42:14'),(3,'Room 3','An executive suite with Air conditioning','active','2022-08-04 07:43:34','2022-08-04 07:43:34'),(4,'Room 4','An executive suite with Air conditioning','active','2022-08-04 07:44:01','2022-08-04 07:44:01'),(5,'Room 5','An executive suite with Air conditioning','active','2022-08-04 07:45:47','2022-08-04 07:45:47');
-/*!40000 ALTER TABLE `rooms` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
+/*Table structure for table `users` */
 
 DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `othernames` varchar(220) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `lastname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(220) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'user',
-  `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `password` varchar(220) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(255) DEFAULT NULL,
+  `othernames` varchar(220) DEFAULT NULL,
+  `lastname` varchar(255) DEFAULT NULL,
+  `email` varchar(220) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `role` varchar(50) DEFAULT 'user',
+  `created_on` datetime DEFAULT CURRENT_TIMESTAMP,
+  `password` varchar(220) DEFAULT NULL,
+  `status` int(11) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `users`
---
+/*Data for the table `users` */
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Joe','Benson','Doe','johndoe@gmail.com','Mrs','admin','2022-08-04 06:16:19','$2a$10$3b6svkz2us7hYFqswKHS5uLArIIUt1.yKQj99iJc/b6cnpxEbvT2a');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+insert  into `users`(`id`,`firstname`,`othernames`,`lastname`,`email`,`title`,`role`,`created_on`,`password`,`status`) values (2,'Prince',NULL,'Oduro','odurusphp@gmail.com',NULL,'admin','2022-08-04 16:50:20','$2a$10$OhdjTlVyV2UvYuKqes7MP.LSFkimdbkSBY.IVhFctKl8KfAV/3YUa',1),(5,'Godfred',NULL,'Asare','wapowe6822@ukgent.com',NULL,'user','2022-08-15 14:25:55','$2a$10$OhdjTlVyV2UvYuKqes7MP.LSFkimdbkSBY.IVhFctKl8KfAV/3YUa',1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2022-08-04 10:39:24

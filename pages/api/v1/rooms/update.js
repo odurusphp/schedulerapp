@@ -28,10 +28,9 @@ export default async function handler(req, res) {
     const payload = await jwtMiddleware(req, res);
     //check if payload contains businessid
     if (!payload.uid) return errorResponse(res, "You need to be logged in to access this route", 401);
-    let roomid = req.body.roomid;
-    const room = await generaldb.singlerecord("rooms", "name", req.body.name);
-
-    if (room) return errorResponse(res, "Room already exists", 409);
+    // let roomid = req.body.roomid;
+    // const room = await generaldb.singlerecord("rooms", "name", req.body.name);
+    // if (room) return errorResponse(res, "Room already exists", 409);
     //update user details
     const roomdetails = {
         name: req.body.name,

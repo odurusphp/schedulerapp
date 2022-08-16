@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import Bookingform from "../../components/Bookingform.js";
-import Menu from "../../components/Menu.js";
+import Usermenu from "../../components/Usermenu.js";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import checkroute from "../../components/helpers/checkroute.js";
@@ -12,7 +12,7 @@ export default function Add() {
   return (
     <div className="grid">
       {/* Menu imported here  */}
-      <Menu />
+      <Usermenu />
       <div className="h-screen bg-cip-grey">
         <div className="grid grid-cols-1 flow-col  w-2/4 mx-auto my-4">
           <div className="flex flex-row mt-10">

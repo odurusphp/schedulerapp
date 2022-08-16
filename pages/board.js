@@ -8,6 +8,8 @@ import {
   getSeconds,
 } from "../utils/helpers/general";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 
 function board() {
   const [bookings, setBookingdata] = useState([]);
@@ -42,6 +44,20 @@ function board() {
     }
   };
 
+  const checkStatus = (startTime, endTime) => {
+    const currentTime = getTime(new Date());
+    const sTime = getTime(new Date(startTime));
+    const eTime = getTime(new Date(endTime));
+
+    if (currentTime < sTime) {
+      return "Pending";
+    } else if (currentTime >= sTime && currentTime <= eTime) {
+      return "Active";
+    } else if (currentTime > eTime) {
+      return "Expired";
+    }
+  };
+
   const MINUTE_MS = 60000;
   useEffect(() => {
     const interval = setInterval(() => {
@@ -55,10 +71,24 @@ function board() {
 
   return (
     <div class="bg-gradient-to-r from-violet-500 to-fuchsia-500 h-screen pt-4">
-      <div className="">
-        <p className="text-center text-white text-4xl uppercase font-black ">
-          Booking Appointments Board
-        </p>
+      <div>
+        <div>
+          <p className="text-center text-white text-4xl uppercase font-black ">
+            Booking Appointments Board
+          </p>
+        </div>
+        <div className="flex items-center justify-center mt-2">
+          <p className="text-center  uppercase text-cip-active">
+            <FontAwesomeIcon icon={faCircle} color={"#D1EA2C"} /> Pending
+          </p>
+          <p className="text-center   uppercase text-cip-blue pl-4">
+            <FontAwesomeIcon icon={faCircle} color={"#00AEF2"} /> Active
+          </p>
+
+          <p className="text-center   uppercase text-cip-orange pl-4">
+            <FontAwesomeIcon icon={faCircle} color={"#FF9C5B"} /> Expired
+          </p>
+        </div>
         {/* <p className="text-center">{new Date().toLocaleString()}</p> */}
         <div className="grid grid-cols-4 gap-2 m-10">
           {bookings.map((booking) => (
@@ -87,6 +117,9 @@ function board() {
                 <span className="text-2xl font-bold">
                   {getTime(booking.to_date)}
                 </span>{" "}
+              </p>
+              <p className="text-white font-bold">
+                {checkStatus(booking.from_date, booking.to_date)}
               </p>
 
               {/* <p className="mt-4">

@@ -62,11 +62,7 @@ export default function Contracts() {
           },
         };
         const result = axios.post(url, data, header);
-        if (result.status === 200) {
-          router.push("/admin/accounts");
-        } else {
-          alert("Error: resetting account");
-        }
+        router.push("/admin/accounts");
       } catch (error) {
         console.log(error);
       }

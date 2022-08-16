@@ -41,11 +41,14 @@ export default function Home() {
     try {
       const result = await axios.post(process.env.API_URL + "/login", formdata);
       console.log(result.data);
+      console.log("role", result.data.userdata.role);
       if (result.status === 200) {
         if (result.data.userdata.role === "admin") {
           localStorage.setItem("token", result.data.token);
+          localStorage.setItem("role", result.data.userdata.role);
           router.push("/admin");
         } else {
+          localStorage.setItem("role", result.data.userdata.role);
           localStorage.setItem("token", result.data.token);
           router.push("/user");
         }

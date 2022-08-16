@@ -54,7 +54,12 @@ export default function Roomform() {
       );
       console.log(result);
       if (result.status === 200) {
-        router.push("/user");
+        const role = localStorage.getItem("role");
+        if (role === "admin") {
+          router.push("/admin/bookings");
+        } else {
+          router.push("/user");
+        }
       }
     } catch (err) {
       setBookerror("Room not availabe at the selected time period");
@@ -84,6 +89,15 @@ export default function Roomform() {
     setError(errors || {});
     if (errors) return;
     submitFormdata();
+  };
+
+  const goback = () => {
+    const role = localStorage.getItem("role");
+    if (role === "admin") {
+      router.push("/admin/bookings");
+    } else {
+      router.push("/user");
+    }
   };
 
   useEffect(() => {
@@ -149,14 +163,13 @@ export default function Roomform() {
 
           <div className="grid grid-rows-1 mt-4">
             <div className="flex">
-              <Link href={"/user"}>
-                <button
-                  type="button"
-                  className="bg-cip-grey w-1/2 rounded text-sm text-cip-blue  p-2"
-                >
-                  Cancel
-                </button>
-              </Link>
+              <button
+                type="button"
+                className="bg-cip-grey w-1/2 rounded text-sm text-cip-blue  p-2"
+                onClick={() => goback()}
+              >
+                Cancel
+              </button>
 
               <button
                 type="submit"

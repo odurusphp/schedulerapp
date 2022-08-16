@@ -98,13 +98,6 @@ export default function rooms() {
                       <FontAwesomeIcon icon={faEdit} color={"#fff"} />
                     </span>
                   </Link>
-
-                  <span
-                    className="p-1.5 rounded-full   bg-red-500 px-4 cursor-pointer"
-                    onClick={() => deleteContract(contract.id)}
-                  >
-                    <FontAwesomeIcon icon={faTrashCan} color={"#fff"} />
-                  </span>
                 </td>
               </tr>
             ))}

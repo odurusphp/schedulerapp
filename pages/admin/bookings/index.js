@@ -11,7 +11,7 @@ export default function rooms() {
   const [bookings, setBookingdata] = useState([]);
 
   const getBookings = async () => {
-    const url = process.env.API_URL + "/bookings/all";
+    const url = process.env.API_URL + "/bookings/today";
     const header = {
       headers: {
         x_auth_token: localStorage.getItem("token"),
@@ -56,7 +56,7 @@ export default function rooms() {
             </div>
 
             <div className="mt-4">
-              <Link href={"/admin/rooms/add"}>
+              <Link href={"/user/booking"}>
                 <a className="bg-cip-deep-green p-2.5 text-white  rounded-md w-full text-sm">
                   {" "}
                   Book a room{" "}

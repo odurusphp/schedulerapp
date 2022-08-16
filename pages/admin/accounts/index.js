@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import Menu from "../../../components/Menu.js";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLockOpen, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheckCircle,
+  faLockOpen,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import checkroute from "../../../components/helpers/checkroute.js";
 
@@ -28,22 +32,20 @@ export default function Contracts() {
     }
   };
 
-  const suspendedAccount = (id) => {
+  const suspendedAccount = (id, status) => {
     if (confirm("Are you sure you want to suspend this account?")) {
+      const data = { userid: id, status: status };
       try {
-        const url = process.env.API_URL + "/users/changestatus/" + id;
+        const url = process.env.API_URL + "/users/changestatus";
         const header = {
           headers: {
             x_auth_token: localStorage.getItem("token"),
           },
         };
-        const result = axios.patch(url, header);
-        if (result.status === 200) {
-          router.push("/admin/accounts");
-        } else {
-          alert("Error: Suspending account");
-        }
+        const result = axios.patch(url, data, header);
+        router.push("/admin/accounts");
       } catch (error) {
+        alert("Error: Suspending account");
         console.log(error);
       }
     }
@@ -52,7 +54,7 @@ export default function Contracts() {
   const resetAccount = (id) => {
     if (confirm("Are you sure you want to reset this account?")) {
       try {
-        const url = process.env.API_URL + "/users/reset";
+        const url = process.env.API_URL + "/users/resetpassword";
         const data = { userid: id };
         const header = {
           headers: {
@@ -157,12 +159,21 @@ export default function Contracts() {
                   >
                     <FontAwesomeIcon icon={faLockOpen} color={"#fff"} />
                   </span>
-                  <span
-                    className="p-1.5 rounded-full   bg-red-500 px-4 cursor-pointer"
-                    onClick={() => suspendedAccount(contract.id)}
-                  >
-                    <FontAwesomeIcon icon={faTimes} color={"#fff"} />
-                  </span>
+                  {contract.status === 1 ? (
+                    <span
+                      className="p-1.5 rounded-full   bg-red-500 px-4 cursor-pointer"
+                      onClick={() => suspendedAccount(contract.id, "2")}
+                    >
+                      <FontAwesomeIcon icon={faTimes} color={"#fff"} />
+                    </span>
+                  ) : (
+                    <span
+                      className="p-1.5 rounded-full   bg-green-500 px-4 cursor-pointer"
+                      onClick={() => suspendedAccount(contract.id, "1")}
+                    >
+                      <FontAwesomeIcon icon={faCheckCircle} color={"#fff"} />
+                    </span>
+                  )}
                 </td>
               </tr>
             ))}

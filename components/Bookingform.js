@@ -4,6 +4,7 @@ import Joi from "joi-browser";
 import { useRouter } from "next/router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Link from "next/link";
 
 export default function Roomform() {
   const router = useRouter();
@@ -148,7 +149,7 @@ export default function Roomform() {
 
           <div className="grid grid-rows-1 mt-4">
             <div className="flex">
-              <Link className="">
+              <Link href={"/user"}>
                 <button
                   type="button"
                   className="bg-cip-grey w-1/2 rounded text-sm text-cip-blue  p-2"

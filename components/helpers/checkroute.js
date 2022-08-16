@@ -9,7 +9,7 @@ function checkroute() {
     }
   } catch (error) {
     console.log(error);
-    router.push("/");
+    //router.push("/");
   }
 }
 

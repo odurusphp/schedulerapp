@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Menu from "../../components/Menu.js";
+import Usermenu from "../../components/Usermenu.js";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
@@ -33,7 +33,7 @@ export default function user() {
   return (
     <div className="grid">
       {/* Menu imported here  */}
-      <Menu />
+      <Usermenu />
 
       <div className="grid grid-cols-1 flow-col  w-3/4 mx-auto my-8">
         <div className="flex flex-row">

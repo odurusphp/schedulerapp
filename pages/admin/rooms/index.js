@@ -4,8 +4,11 @@ import Menu from "../../../components/Menu.js";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import checkroute from "../../../components/helpers/checkroute.js";
+import { useRouter } from "next/router";
 
 export default function rooms() {
+  checkroute();
   const [roomdata, setRoomdata] = useState([]);
 
   const getrooms = async () => {
@@ -90,7 +93,7 @@ export default function rooms() {
                 <td className="text-start p-2 text-sm">{contract.status}</td>
 
                 <td className="text-start p-2  text-xs">
-                  <Link href={"/dashboard/contracts/" + contract.id}>
+                  <Link href={"/admin/rooms/" + contract.id}>
                     <span className="p-1.5 rounded-full  bg-cip-blue px-4 cursor-pointer">
                       <FontAwesomeIcon icon={faEdit} color={"#fff"} />
                     </span>

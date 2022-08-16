@@ -4,8 +4,11 @@ import Menu from "../../components/Menu.js";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import checkroute from "../../components/helpers/checkroute.js";
 
 export default function admin() {
+  checkroute();
+
   const [usercount, setUserCount] = useState(0);
   const [todayBookings, seTtodayBookings] = useState("");
   const [totalBookings, setTotalBookings] = useState("");

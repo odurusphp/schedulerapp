@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function Roomform() {
   const router = useRouter();
   const [error, setError] = useState({});
+  const [bookerror, setBookerror] = useState("");
   const [roomdata, setRoomdata] = useState([]);
 
   const [formdata, setFormData] = useState({
@@ -55,6 +56,7 @@ export default function Roomform() {
         router.push("/user");
       }
     } catch (err) {
+      setBookerror("Room not availabe at the selected time period");
       console.log(err);
     }
   };
@@ -91,6 +93,11 @@ export default function Roomform() {
     <>
       <div className="grid grid-rows-1 p-10 bg-white shadow-md">
         <form onSubmit={handleSubmit}>
+          <div className="grid grid-rows-1 mt-2">
+            <p className="text-red-500 text-base font-bold text-center">
+              {bookerror ? bookerror : ""}
+            </p>
+          </div>
           <div className="grid grid-rows-1 mt-4">
             <select
               name="roomid"
@@ -141,12 +148,14 @@ export default function Roomform() {
 
           <div className="grid grid-rows-1 mt-4">
             <div className="flex">
-              <button
-                type="button"
-                className="bg-cip-grey w-1/2 rounded text-sm text-cip-blue  p-2"
-              >
-                Cancel
-              </button>
+              <Link className="">
+                <button
+                  type="button"
+                  className="bg-cip-grey w-1/2 rounded text-sm text-cip-blue  p-2"
+                >
+                  Cancel
+                </button>
+              </Link>
 
               <button
                 type="submit"

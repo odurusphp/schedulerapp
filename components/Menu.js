@@ -1,7 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Menu() {
+  const router = useRouter();
+  const logout = () => {
+    localStorage.removeItem("token");
+    router.push("/");
+  };
+
   return (
     <>
       <div className="grid grid-cols-5 flow-col w-full p-8 border-t-white sticky shadow-lg">
@@ -62,15 +69,15 @@ export default function Menu() {
 
           <p>
             {" "}
-            <Link href={"/"}>
-              <a
-                href="#"
-                className="ml-10 py-2 bg-cip-blue text-white rounded-md px-4 cursor-pointer hover:bg-cip-dark-orange hover:underline hover:underline-offset-8
+            <a
+              href="#"
+              className="ml-10 py-2 bg-cip-blue text-white rounded-md px-4 cursor-pointer hover:bg-cip-dark-orange 
+              hover:underline hover:underline-offset-8
                "
-              >
-                Logout
-              </a>
-            </Link>
+              onClick={logout}
+            >
+              Logout
+            </a>
           </p>
         </div>
       </div>

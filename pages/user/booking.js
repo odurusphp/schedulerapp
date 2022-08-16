@@ -3,8 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import Bookingform from "../../components/Bookingform.js";
 import Menu from "../../components/Menu.js";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import checkroute from "../../components/helpers/checkroute.js";
 
 export default function Add() {
+  checkroute();
   return (
     <div className="grid">
       {/* Menu imported here  */}

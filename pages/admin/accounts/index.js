@@ -5,8 +5,10 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLockOpen, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
+import checkroute from "../../../components/helpers/checkroute.js";
 
 export default function Contracts() {
+  checkroute();
   const [userdata, setUserdata] = useState([]);
   const router = useRouter();
 
@@ -29,7 +31,7 @@ export default function Contracts() {
   const suspendedAccount = (id) => {
     if (confirm("Are you sure you want to suspend this account?")) {
       try {
-        const url = process.env.API_URL + "/users/suspend/" + id;
+        const url = process.env.API_URL + "/users/changestatus/" + id;
         const header = {
           headers: {
             x_auth_token: localStorage.getItem("token"),
@@ -40,6 +42,28 @@ export default function Contracts() {
           router.push("/admin/accounts");
         } else {
           alert("Error: Suspending account");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const resetAccount = (id) => {
+    if (confirm("Are you sure you want to reset this account?")) {
+      try {
+        const url = process.env.API_URL + "/users/reset";
+        const data = { userid: id };
+        const header = {
+          headers: {
+            x_auth_token: localStorage.getItem("token"),
+          },
+        };
+        const result = axios.post(url, data, header);
+        if (result.status === 200) {
+          router.push("/admin/accounts");
+        } else {
+          alert("Error: resetting account");
         }
       } catch (error) {
         console.log(error);
@@ -127,15 +151,12 @@ export default function Contracts() {
                 </td>
 
                 <td className="text-start p-2  text-xs">
-                  <Link href={"/dashboard/contracts/" + contract.id}>
-                    <span
-                      className="p-1.5 rounded-full  bg-cip-blue px-4 cursor-pointer"
-                      onClick={() => deleteContract(contract.id)}
-                    >
-                      <FontAwesomeIcon icon={faLockOpen} color={"#fff"} />
-                    </span>
-                  </Link>
-
+                  <span
+                    className="p-1.5 rounded-full  bg-cip-blue px-4 cursor-pointer"
+                    onClick={() => resetAccount(contract.id)}
+                  >
+                    <FontAwesomeIcon icon={faLockOpen} color={"#fff"} />
+                  </span>
                   <span
                     className="p-1.5 rounded-full   bg-red-500 px-4 cursor-pointer"
                     onClick={() => suspendedAccount(contract.id)}

@@ -2,16 +2,16 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Joi from "joi-browser";
 import { useRouter } from "next/router";
+import "react-datepicker/dist/react-datepicker.css";
+import Link from "next/link";
 
-export default function Editdevice({ devicedata }) {
+export default function Editroom({ roomdata }) {
   const router = useRouter();
-
-  const [contractsdata, setContractsdata] = useState([]);
   const [error, setError] = useState({});
+
   const [formdata, setFormData] = useState({
     name: "",
-    type: "",
-    contractId: "",
+    description: "",
   });
 
   const handleChange = (e) => {
@@ -21,8 +21,7 @@ export default function Editdevice({ devicedata }) {
   //Form schema
   const schema = {
     name: Joi.string().required(),
-    contractId: Joi.string().required(),
-    type: Joi.string().required(),
+    description: Joi.string().required(),
   };
 
   //Validate form function
@@ -36,15 +35,21 @@ export default function Editdevice({ devicedata }) {
   };
 
   const submitFormdata = async (e) => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      x_auth_token: token,
+    };
+
+    formdata.roomid = roomdata.id;
+    formdata.status = "active";
+
+    const url = process.env.API_URL + "/rooms/update";
     try {
-      const deviceid = devicedata.id;
-      const result = await axios.put(
-        process.env.API_URL + "/devices/" + deviceid,
-        formdata
-      );
+      const result = await axios.put(url, formdata, { headers });
       console.log(result);
       if (result.status === 200) {
-        router.push("/dashboard/devices");
+        router.push("/admin/rooms");
       }
     } catch (err) {
       console.log(err);
@@ -59,94 +64,57 @@ export default function Editdevice({ devicedata }) {
     submitFormdata();
   };
 
-  const getContracts = async () => {
-    const url = process.env.API_URL + "/contracts";
-    try {
-      const result = await axios.get(url);
-      setContractsdata(result.data.contracts);
-      console.log(result.data.contracts);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    //formdata.name = devicedata.name;
-    console.log("edit data", devicedata);
     setFormData({
-      name: devicedata.name,
-      type: devicedata.type,
-      contractId: devicedata.contractId,
+      name: roomdata.name,
+      description: roomdata.description,
     });
-
-    getContracts();
-  }, [devicedata]);
+  }, [roomdata]);
 
   return (
     <>
       <div className="grid grid-rows-1 p-10 bg-white shadow-md">
         <form onSubmit={handleSubmit}>
           <div className="grid grid-rows-1 mt-4">
-            <label className="text-sm text-cip-blue">Name:</label>
             <input
               type="text"
               name="name"
-              placeholder="Name"
+              placeholder="Room Name"
+              value={formdata.name}
               onChange={handleChange}
-              value={formdata.name || ""}
               className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
             />
+
             <label className="text-red-500 text-sm">
-              {error.name && "Name of device required"}{" "}
-            </label>
-          </div>
-          <div className="grid grid-rows-1 my-2">
-            <label className="text-cip-blue text-sm">Type:</label>
-            <select
-              type="text"
-              placeholder="Contract ID"
-              name="type"
-              onChange={handleChange}
-              className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue text-gray-500 "
-            >
-              <option>{formdata.type}</option>
-              <option>Luxury</option>
-              <option>Simple</option>
-            </select>
-            <label className="text-red-500 text-sm">
-              {error.type && "Device type required"}{" "}
+              {error.name && "Room required"}{" "}
             </label>
           </div>
 
-          <div className="grid grid-rows-1">
-            <label className="text-cip-blue text-sm">Contract:</label>
-            <select
+          <div className="grid grid-rows-1 mt-4">
+            <input
               type="text"
-              placeholder="Contract ID"
-              name="contractId"
+              name="description"
+              placeholder="Description"
+              value={formdata.description}
               onChange={handleChange}
-              className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue text-gray-500 "
-            >
-              <option>{formdata.contractId}</option>
-              {contractsdata.map((contract) => (
-                <option value={contract.name} key={contract.id}>
-                  {contract.name}
-                </option>
-              ))}
-            </select>
+              className="p-1.5 rounded w-full border-2 border-white border-b-cip-blue"
+            />
+
             <label className="text-red-500 text-sm">
-              {error.contractId && "Contract of device required"}{" "}
+              {error.description && "Room required"}{" "}
             </label>
           </div>
 
           <div className="grid grid-rows-1 mt-4">
             <div className="flex">
-              <button
-                className="bg-cip-grey w-1/2 rounded text-sm text-cip-blue  p-2  "
-                onClick={() => closeBox()}
-              >
-                Cancel
-              </button>
+              <Link href={"/admin/rooms"}>
+                <button
+                  type="button"
+                  className="bg-cip-grey w-1/2 rounded text-sm text-cip-blue  p-2"
+                >
+                  Cancel
+                </button>
+              </Link>
 
               <button
                 type="submit"

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Menu from "../../../components/Menu.js";
 import axios from "axios";
-import Checkroute from "../../../components/helpers/Checkroute.js";
 
 export default function Bookings() {
   const [bookings, setBookingdata] = useState([]);

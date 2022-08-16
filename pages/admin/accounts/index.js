@@ -9,7 +9,6 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
-import Checkroute from "../../../components/helpers/Checkroute.js";
 
 export default function Accounts() {
   const [userdata, setUserdata] = useState([]);

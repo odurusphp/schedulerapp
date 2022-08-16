@@ -4,7 +4,6 @@ import Menu from "../../../components/Menu.js";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import Checkroute from "../../../components/helpers/Checkroute.js";
 
 export default function Rooms() {
   const [roomdata, setRoomdata] = useState([]);

@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import Bookingform from "../../components/Bookingform.js";
 import Usermenu from "../../components/Usermenu.js";
-import Checkroute from "../../components/helpers/Checkroute.js";
 import { useEffect } from "react";
 
 export default function Add() {

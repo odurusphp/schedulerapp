@@ -6,12 +6,6 @@ const lodash = require("lodash");
 //const config = require("config");
 
 export default async function handler(req, res) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization, x_auth_token"
-  );
-
   if (req.method !== "POST") {
     res.status(405).send("Method Not Alllowed");
     return;

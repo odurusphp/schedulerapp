@@ -30,7 +30,6 @@ export default function Edit() {
     };
     try {
       const result = await axios.get(url, header);
-      console.log("room result", result.data);
       setRoomdata(result.data.data.room);
     } catch (error) {
       console.log(error);
@@ -38,6 +37,7 @@ export default function Edit() {
   };
   useEffect(() => {
     getroom();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

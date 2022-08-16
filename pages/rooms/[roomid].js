@@ -10,7 +10,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function rooms() {
+export default function Rooms() {
   const router = useRouter();
   const roomid = router.query.roomid;
   const [roomdata, setRoomdata] = useState({});
@@ -34,12 +34,11 @@ export default function rooms() {
       },
     };
     const result = await axios.get(url, header);
-    console.log("room result", result.data.data);
     setRoomdata(result.data.data);
   };
   useEffect(() => {
     getRoom();
-    console.log("roomdata", roomdata);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

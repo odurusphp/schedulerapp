@@ -3,12 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import Bookingform from "../../components/Bookingform.js";
 import Usermenu from "../../components/Usermenu.js";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import checkroute from "../../components/helpers/checkroute.js";
+import Checkroute from "../../components/helpers/Checkroute.js";
+import { useEffect } from "react";
 
 export default function Add() {
-  checkroute();
+  useEffect(() => {
+    // const token = localStorage.getItem("token");
+    // Checkroute(token);
+  }, []);
   return (
     <div className="grid">
       {/* Menu imported here  */}

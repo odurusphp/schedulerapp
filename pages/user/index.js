@@ -2,11 +2,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Usermenu from "../../components/Usermenu.js";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import checkroute from "../../components/helpers/checkroute.js";
-export default function user() {
-  checkroute();
+import Checkroute from "../../components/helpers/Checkroute.js";
+export default function Index() {
   const [bookings, setBookingData] = useState([]);
   const getBookings = async () => {
     const token = localStorage.getItem("token");
@@ -26,7 +23,8 @@ export default function user() {
   };
 
   useEffect(() => {
-    console.log("token room", localStorage.getItem("token"));
+    // const token = localStorage.getItem("token");
+    // Checkroute(token);
     getBookings();
   }, []);
 

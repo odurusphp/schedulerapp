@@ -3,12 +3,10 @@ import { useEffect, useState } from "react";
 import Menu from "../../../components/Menu.js";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import checkroute from "../../../components/helpers/checkroute.js";
-import { useRouter } from "next/router";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import Checkroute from "../../../components/helpers/Checkroute.js";
 
-export default function rooms() {
-  checkroute();
+export default function Rooms() {
   const [roomdata, setRoomdata] = useState([]);
 
   const getrooms = async () => {
@@ -28,7 +26,8 @@ export default function rooms() {
   };
 
   useEffect(() => {
-    console.log("token", localStorage.getItem("token"));
+    // const token = localStorage.getItem("token");
+    // Checkroute(token);
     getrooms();
   }, []);
 

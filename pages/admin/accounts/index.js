@@ -9,10 +9,9 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
-import checkroute from "../../../components/helpers/checkroute.js";
+import Checkroute from "../../../components/helpers/Checkroute.js";
 
-export default function Contracts() {
-  checkroute();
+export default function Accounts() {
   const [userdata, setUserdata] = useState([]);
   const router = useRouter();
 
@@ -70,7 +69,8 @@ export default function Contracts() {
   };
 
   useEffect(() => {
-    console.log("token", localStorage.getItem("token"));
+    //const token = localStorage.getItem("token");
+    // Checkroute(token);
     getusers();
   }, []);
 

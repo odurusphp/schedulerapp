@@ -11,7 +11,7 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 
-function board() {
+function Board() {
   const [bookings, setBookingdata] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const getBookings = async () => {
@@ -70,7 +70,7 @@ function board() {
   }, []);
 
   return (
-    <div class="bg-gradient-to-r from-violet-500 to-fuchsia-500 h-screen pt-4">
+    <div className="bg-gradient-to-r from-violet-500 to-fuchsia-500 h-screen pt-4">
       <div>
         <div>
           <p className="text-center text-white text-4xl uppercase font-black ">
@@ -93,6 +93,7 @@ function board() {
         <div className="grid grid-cols-4 gap-2 m-10">
           {bookings.map((booking) => (
             <div
+              key={booking.id}
               className={`flex flex-col col-span-1 h-64 justify-center shadow-lg
                justify-items-center items-center rounded-md ${checkTimeBetween(
                  booking.from_date,
@@ -142,4 +143,4 @@ function board() {
   );
 }
 
-export default board;
+export default Board;

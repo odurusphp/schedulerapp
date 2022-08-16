@@ -12,7 +12,7 @@ export default function Menu() {
         <div className="col-span-4 ml-10 flex justify-end mr-20 mt-2">
           <p>
             {" "}
-            <Link href={"/dashboard/accounts"}>
+            <Link href={"/admin"}>
               <a
                 href="#"
                 className=" pl-10 cursor-pointer hover:text-cip-orange hover:underline hover:underline-offset-8 
@@ -25,13 +25,13 @@ export default function Menu() {
 
           <p className="">
             {" "}
-            <Link href={"/booking/"}>
+            <Link href={"/admin/bookings/"}>
               <a
                 href="#"
                 className=" pl-10 cursor-pointer hover:text-cip-orange hover:underline hover:underline-offset-8 
    "
               >
-                Meetings
+                Bookings
               </a>
             </Link>
           </p>

@@ -14,6 +14,8 @@ module.exports = {
         "cip-orange": "#FF9C5B",
         "facebook-blue": "#1877F2",
         "cip-grey": "#DADADA",
+        "cip-active": "#D1EA2C",
+        "cip-inactive": "#F9BC02",
       },
     },
   },

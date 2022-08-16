@@ -8,6 +8,7 @@ import { useState } from "react";
 export default function Home() {
   const router = useRouter();
   const [error, setError] = useState({});
+  const [regerror, setRegError] = useState("");
 
   const [formdata, setFormData] = useState({
     email: "",
@@ -41,13 +42,16 @@ export default function Home() {
       if (result.status === 200) {
         if (result.data.userdata.role === "admin") {
           localStorage.setItem("token", result.data.token);
-          router.push("/admin/accounts");
+          router.push("/admin");
         } else {
           localStorage.setItem("token", result.data.token);
           router.push("/user");
         }
+      } else {
+        setRegError("Error: Invalid email or password");
       }
     } catch (err) {
+      setRegError("Problem logging in. Try again later");
       console.log(err);
     }
   };
@@ -70,6 +74,12 @@ export default function Home() {
         <div className="grid grid-rows-1 mt-4 place-items-center">
           <h1 className="text-2xl font-bold text-cip-blue ">SCHECULER APP</h1>
         </div>
+        <div className="grid grid-rows-1 mt-4 place-items-center">
+          <label className="text-red-500 text-sm">
+            {regerror ? regerror : ""}
+          </label>
+        </div>
+
         <div className="grid grid-rows-1 mt-4">
           <input
             type="text"

@@ -6,18 +6,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 export default function user() {
-  const [roomdata, setRoomdata] = useState([]);
-  const getrooms = async () => {
-    const url = process.env.API_URL + "/bookings/all";
+  const [bookings, setBookingData] = useState([]);
+  const getBookings = async () => {
+    const token = localStorage.getItem("token");
+    const url = process.env.API_URL + "/bookings";
     const header = {
       headers: {
-        x_auth_token: localStorage.getItem("token"),
+        x_auth_token: token,
       },
     };
     try {
       const result = await axios.get(url, header);
       console.log("room result", result.data);
-      setRoomdata(result.data.data);
+      setBookingData(result.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -25,7 +26,7 @@ export default function user() {
 
   useEffect(() => {
     console.log("token room", localStorage.getItem("token"));
-    getrooms();
+    getBookings();
   }, []);
 
   return (
@@ -37,7 +38,7 @@ export default function user() {
         <div className="flex flex-row">
           <div className="basis-4/6 mt-2">
             <h1 className="text-2xl font-normal underline underline-offset-8   decoration-cip-orange text-start">
-              List of Room Appointments
+              My List of Bookings
             </h1>
           </div>
 
@@ -70,24 +71,24 @@ export default function user() {
             <tr className="border border-gray-300 border-2 font-bold bg-cip-green text-white">
               <td className="text-start p-2">#</td>
               <td className="text-start p-2">Room</td>
-              <td className="text-start p-2">Booked By </td>
               <td className="text-start p-2">From</td>
               <td className="text-start p-2">To</td>
               <td className="text-start p-2">Status</td>
+              <td className="text-start p-2"> Created at </td>
             </tr>
           </thead>
           <tbody>
-            {roomdata.map((contract, index) => (
+            {bookings.map((item, index) => (
               <tr
-                key={contract.id}
+                key={item.id}
                 className="border border-gray-300 border-2  even:bg-cip-light-green  odd:bg-white"
               >
                 <td className={"text-start p-2 text-sm"}>{index + 1}</td>
-                <td className="text-start p-2 text-sm">{contract.room}</td>
-                <td className="text-start p-2 text-sm">{contract.user}</td>
-                <td className="text-start p-2 text-sm">{contract.from_date}</td>
-                <td className="text-start p-2 text-sm">{contract.to_date}</td>
-                <td className="text-start p-2 text-sm">{contract.status}</td>
+                <td className="text-start p-2 text-sm">{item.room}</td>
+                <td className="text-start p-2 text-sm">{item.from_date}</td>
+                <td className="text-start p-2 text-sm">{item.to_date}</td>
+                <td className="text-start p-2 text-sm">{item.status}</td>
+                <td className="text-start p-2 text-sm">{item.created_at}</td>
               </tr>
             ))}
           </tbody>

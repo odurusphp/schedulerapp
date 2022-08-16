@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import Menu from "../../../components/Menu.js";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faLockOpen, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/router";
 
 export default function Contracts() {
   const [userdata, setUserdata] = useState([]);
+  const router = useRouter();
 
   const getusers = async () => {
     const url = process.env.API_URL + "/users";
@@ -21,6 +23,27 @@ export default function Contracts() {
       setUserdata(result.data.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const suspendedAccount = (id) => {
+    if (confirm("Are you sure you want to suspend this account?")) {
+      try {
+        const url = process.env.API_URL + "/users/suspend/" + id;
+        const header = {
+          headers: {
+            x_auth_token: localStorage.getItem("token"),
+          },
+        };
+        const result = axios.patch(url, header);
+        if (result.status === 200) {
+          router.push("/admin/accounts");
+        } else {
+          alert("Error: Suspending account");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -74,6 +97,7 @@ export default function Contracts() {
               <td className="text-start p-2">Email</td>
               <td className="text-start p-2">Role</td>
               <td className="text-start p-2">Date Created</td>
+              <td className="text-start p-2">Status</td>
               <td></td>
             </tr>
           </thead>
@@ -92,18 +116,31 @@ export default function Contracts() {
                 <td className="text-start p-2 text-sm">
                   {contract.created_on}
                 </td>
+                <td className="text-start p-2 text-sm">
+                  <span
+                    className={`text-xs px-4 py-2 rounded-full ${
+                      contract.status === 1 ? "bg-cip-blue" : "bg-red-500"
+                    }`}
+                  >
+                    {contract.status === 1 ? "Active" : "suspended"}
+                  </span>
+                </td>
+
                 <td className="text-start p-2  text-xs">
                   <Link href={"/dashboard/contracts/" + contract.id}>
-                    <span className="p-1.5 rounded-full  bg-cip-blue px-4 cursor-pointer">
-                      <FontAwesomeIcon icon={faEdit} color={"#fff"} />
+                    <span
+                      className="p-1.5 rounded-full  bg-cip-blue px-4 cursor-pointer"
+                      onClick={() => deleteContract(contract.id)}
+                    >
+                      <FontAwesomeIcon icon={faLockOpen} color={"#fff"} />
                     </span>
                   </Link>
 
                   <span
                     className="p-1.5 rounded-full   bg-red-500 px-4 cursor-pointer"
-                    onClick={() => deleteContract(contract.id)}
+                    onClick={() => suspendedAccount(contract.id)}
                   >
-                    <FontAwesomeIcon icon={faTrashCan} color={"#fff"} />
+                    <FontAwesomeIcon icon={faTimes} color={"#fff"} />
                   </span>
                 </td>
               </tr>

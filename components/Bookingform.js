@@ -51,9 +51,9 @@ export default function Roomform() {
         headers
       );
       console.log(result);
-      // if (result.status === 200) {
-      //   router.push("/dashboard/accounts");
-      // }
+      if (result.status === 200) {
+        router.push("/user");
+      }
     } catch (err) {
       console.log(err);
     }

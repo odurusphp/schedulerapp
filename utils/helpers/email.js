@@ -1,12 +1,8 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-async function send(
-  email = "",
-  subject = "",
-  msg,
-) {
-  let url = process.env.URL + "login";
+async function send(email = "", subject = "", msg) {
+  let url = process.env.APP_URL + "login";
   let transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,

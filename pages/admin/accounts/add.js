@@ -22,7 +22,7 @@ export default function Add() {
                 </p>
               </Link>
               <p className="text-base font-normal underline underline-offset-8   decoration-cip-orange text-start">
-                Add An Account
+                Add Account
               </p>
             </div>
           </div>

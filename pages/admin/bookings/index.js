@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Menu from "../../../components/Menu.js";
 import axios from "axios";
+import { getTime, getSeconds } from "../../../utils/helpers/general";
 
 export default function Bookings() {
   const [bookings, setBookingdata] = useState([]);
@@ -19,6 +20,20 @@ export default function Bookings() {
       setBookingdata(result.data.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const checkStatus = (startTime, endTime) => {
+    const currentTime = getTime(new Date());
+    const sTime = getTime(new Date(startTime));
+    const eTime = getTime(new Date(endTime));
+
+    if (currentTime < sTime) {
+      return "Pending";
+    } else if (currentTime >= sTime && currentTime <= eTime) {
+      return "Active";
+    } else if (currentTime > eTime) {
+      return "Expired";
     }
   };
 
@@ -88,7 +103,9 @@ export default function Bookings() {
                 <td className="text-start p-2 text-sm">{item.user}</td>
                 <td className="text-start p-2 text-sm">{item.from_date}</td>
                 <td className="text-start p-2 text-sm">{item.to_date}</td>
-                <td className="text-start p-2 text-sm">{item.status}</td>
+                <td className="text-start p-2 text-sm">
+                  {checkStatus(item.from_date, item.to_date)}
+                </td>
                 <td className="text-start p-2 text-sm">{item.created_at}</td>
               </tr>
             ))}

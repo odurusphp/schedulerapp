@@ -6,6 +6,8 @@ import axios from "axios";
 import Joi from "joi-browser";
 import { useState } from "react";
 import Logo from "../assets/logo.png";
+import { formatdate, getTime, getSeconds } from "../utils/helpers/general";
+import moment from "moment";
 
 export default function Home() {
   const router = useRouter();
@@ -70,6 +72,14 @@ export default function Home() {
   };
 
   useEffect(() => {
+    const nDate = new Date();
+    // var rightNow = new Date();
+    // rightNow = rightNow.toLocaleString("en-GB", {
+    //   hour: "2-digit",
+    //   hour12: false,
+    //   timeZone: "Europe/London",
+    // });
+
     console.log("process.env.API_URL", process.env.API_URL);
   }, []);
 

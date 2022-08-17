@@ -3,29 +3,47 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import Bookingform from "../../components/Bookingform.js";
 import Usermenu from "../../components/Usermenu.js";
+import Menu from "../../components/Menu.js";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Add() {
-  useEffect(() => {
-    // const token = localStorage.getItem("token");
-    // Checkroute(token);
-  }, []);
+  const router = useRouter();
+  const swapMenu = () => {
+    const role = localStorage.getItem("role");
+    if (role === "user") {
+      return <Usermenu />;
+    } else {
+      return <Menu />;
+    }
+  };
+
+  const goback = () => {
+    const role = localStorage.getItem("role");
+    if (role === "admin") {
+      router.push("/admin/bookings");
+    } else {
+      router.push("/user");
+    }
+  };
+
+  useEffect(() => {}, []);
   return (
     <div className="grid">
       {/* Menu imported here  */}
-      <Usermenu />
+      {swapMenu()}
       <div className="h-screen bg-cip-grey">
         <div className="grid grid-cols-1 flow-col  w-2/4 mx-auto my-4">
           <div className="flex flex-row mt-10">
             <div className="mt-2 flex">
-              <Link href={"/user"}>
+              <a href="#" onClick={() => goback()}>
                 <p className="text-base font-normal text-start -ml-10 mx-10 cursor-pointer">
                   <span>
                     <FontAwesomeIcon icon={faChevronLeft} />
                   </span>{" "}
                   Back
                 </p>
-              </Link>
+              </a>
               <p className="text-base font-normal underline underline-offset-8   decoration-cip-orange text-start">
                 Book a Room
               </p>

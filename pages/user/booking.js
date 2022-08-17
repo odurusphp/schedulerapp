@@ -10,11 +10,13 @@ import { useRouter } from "next/router";
 export default function Add() {
   const router = useRouter();
   const swapMenu = () => {
-    const role = localStorage.getItem("role");
-    if (role === "user") {
-      return <Usermenu />;
-    } else {
-      return <Menu />;
+    if (typeof window !== "undefined") {
+      const role = localStorage.getItem("role");
+      if (role === "user") {
+        return <Usermenu />;
+      } else {
+        return <Menu />;
+      }
     }
   };
 

@@ -45,7 +45,7 @@ export default function Accountform() {
       );
       console.log(result);
       if (result.status === 200) {
-        router.push("/dashboard/accounts");
+        router.push("/admin/accounts");
       }
     } catch (err) {
       console.log(err);

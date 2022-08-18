@@ -63,7 +63,7 @@ export default async function handler(req, res) {
   let message = `Hi ${userdetails.firstname},
     <br>
     <br>
-    Your password is ${password}. Please change your password after you login.
+    Your password is ${password}. Please login into the system
     <br>
     <br>
     Thank you.

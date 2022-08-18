@@ -122,7 +122,7 @@ export default function Roomform() {
               <option value="">Select Room</option>
               {roomdata.map((room) => (
                 <option key={room.id} value={room.id}>
-                  {room.name}
+                  <span>{`${room.name}  : ${room.description}`}</span>
                 </option>
               ))}
             </select>

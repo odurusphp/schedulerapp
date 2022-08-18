@@ -10,7 +10,6 @@ import {
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment";
 
 function Board() {
   const [bookings, setBookingdata] = useState([]);
@@ -66,18 +65,6 @@ function Board() {
       getBookings();
     }, MINUTE_MS);
 
-    //moment.locale("en-GB");
-    const rightNow = moment(currentDate).format("YYYY-MM-DD HH:mm:ss");
-
-    const now = rightNow.toLocaleString("en-GB", {
-      hour: "2-digit",
-      hour12: false,
-      timeZone: "Europe/London",
-    });
-    setCurrentDate(rightNow);
-
-    console.log("currentDate", rightNow);
-    console.log("now", now);
     getBookings();
 
     return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.

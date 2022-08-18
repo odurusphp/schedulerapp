@@ -59,7 +59,7 @@ function Board() {
     }
   };
 
-  const MINUTE_MS = 60000;
+  const MINUTE_MS = 10000;
   useEffect(() => {
     const interval = setInterval(() => {
       console.log("Logs every minute");

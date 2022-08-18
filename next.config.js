@@ -9,10 +9,10 @@ const nextConfig = {
     DB_PASSWORD: "prince",
     DB_NAME: "scheduler",
     DB_PORT: 3307,
-    SMTP_HOST: "smtp.mail.yahoo.com",
+    SMTP_HOST: "smtp.gmail.com",
     SMTP_PORT: 465,
-    EMAIL_USERNAME: "chris.debrah@yahoo.com",
-    EMAIL_PASSWORD: "fxvcgkctoipwdsmk",
+    EMAIL_USERNAME: "admin.support@carbon.ci",
+    EMAIL_PASSWORD: "xmkfaijpdgnvaavn",
   },
 };
 

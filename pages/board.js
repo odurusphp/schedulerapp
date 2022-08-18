@@ -93,10 +93,11 @@ function Board() {
         </div>
         <div className="flex items-center justify-center mt-2">
           <p className="text-center  uppercase text-cip-active">
-            <FontAwesomeIcon icon={faCircle} color={"#D1EA2C"} /> Pending
+            <FontAwesomeIcon icon={faCircle} color={"#D1EA2C"} />
+            Active
           </p>
           <p className="text-center   uppercase text-cip-blue pl-4">
-            <FontAwesomeIcon icon={faCircle} color={"#00AEF2"} /> Active
+            <FontAwesomeIcon icon={faCircle} color={"#00AEF2"} /> Pending
           </p>
 
           <p className="text-center   uppercase text-cip-orange pl-4">

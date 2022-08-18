@@ -1,4 +1,7 @@
 //success response
+
+import moment from "moment";
+
 const successResponse = (res, message, data, code = 200) => {
   return res.status(code).json({
     status: "success",
@@ -17,28 +20,26 @@ const errorResponse = (res, error, code = 422) => {
 };
 function formatdate(date) {
   var dateObj = new Date(date);
-  var month = formattext(dateObj.getMonth() + 1); //months from 1-12
-  var day = formattext(dateObj.getDate());
-  var year = dateObj.getFullYear();
-  var newdate =
-    year +
-    "-" +
-    month +
-    "-" +
-    day +
-    " " +
-    dateObj.getHours() +
-    ":" +
-    dateObj.getMinutes() +
-    ":" +
-    dateObj.getSeconds();
-  return newdate;
+  const rightNow = moment(dateObj).format("YYYY-MM-DD HH:mm");
+  const now = rightNow.toLocaleString("en-GB", {
+    hour: "2-digit",
+    hour12: false,
+    timeZone: "Europe/London",
+  });
+  return now;
 }
 
 function getTime(date) {
   var dateObj = new Date(date);
-  var newdate = "0" + dateObj.getHours() + ":" + "0" + dateObj.getMinutes();
-  return newdate;
+  var newdate = dateObj.getHours() + ":" + dateObj.getMinutes();
+
+  const rightNow = moment(dateObj).format("HH:mm");
+  const now = rightNow.toLocaleString("en-GB", {
+    hour: "2-digit",
+    hour12: false,
+    timeZone: "Europe/London",
+  });
+  return now;
 }
 const formattext = (string) => {
   const fm = string.toString();

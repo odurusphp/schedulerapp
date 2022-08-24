@@ -58,7 +58,21 @@ function Board() {
     }
   };
 
-  const MINUTE_MS = 10000;
+  const checkBlock = (startTime, endTime) => {
+    const currentTime = getTime(new Date());
+    const sTime = getTime(new Date(startTime));
+    const eTime = getTime(new Date(endTime));
+
+    if (currentTime < sTime) {
+      return "";
+    } else if (currentTime >= sTime && currentTime <= eTime) {
+      return "";
+    } else if (currentTime > eTime) {
+      return "hidden";
+    }
+  };
+
+  const MINUTE_MS = 100000;
   useEffect(() => {
     const interval = setInterval(() => {
       console.log("Logs every minute");
@@ -100,7 +114,8 @@ function Board() {
                justify-items-center items-center rounded-md ${checkTimeBetween(
                  booking.from_date,
                  booking.to_date
-               )}`}
+               )}
+               ${checkBlock(booking.from_date, booking.to_date)}`}
             >
               <p className="text-white text-xl uppercase font-normal">
                 Booked By: {booking.user}{" "}
@@ -124,19 +139,6 @@ function Board() {
               <p className="text-white font-bold">
                 {checkStatus(booking.from_date, booking.to_date)}
               </p>
-
-              {/* <p className="mt-4">
-                <CountdownCircleTimer
-                  isPlaying
-                  strokeWidth={5}
-                  duration={getSeconds(booking.from_date, booking.to_date)}
-                  colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-                  colorsTime={[7, 5, 2, 0]}
-                  size={80}
-                >
-                  {({ remainingTime }) => remainingTime}
-                </CountdownCircleTimer>
-              </p> */}
             </div>
           ))}
         </div>
